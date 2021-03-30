@@ -1,116 +1,131 @@
 
 package Phase1;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.ConsoleAppender;
 
 import java.util.ArrayList;
 
-/**this class is developed on day-05 */
-public class List{
+/** this class is developed on day-05 */
+public class List {
 	static Logger log = Logger.getLogger(List.class.getName());
-    
-    /**
+
+	/**
 	 * Method for adding elements to list
+	 * 
 	 * @param list
 	 */
-	public static void add(ArrayList<String> list){
-	    for (int i =0;i<3;i++){
-	        System.out.println("Enter a String to add : ");
-	        list.add(System.console().readLine());
-	    }
-    	System.out.println("After Adding elements : "+list);    
+	public static void add(ArrayList<String> list) {
+		for (int counter = 0; counter < 3; counter++) {
+			log.info("Enter an element to add : ");
+			list.add(System.console().readLine());
+		}
+		log.info("After Adding elements : " + list);
 
 	}
 
-    /**
+	/**
 	 * Method for finding if the list is empty
+	 * 
 	 * @param list
 	 */
-	public static void isEmpty(ArrayList<String> list){
-		System.out.println("Is list empty : "+list.isEmpty());
+	public static void isEmpty(ArrayList<String> list) {
+		log.info("Is list empty : " + list.isEmpty());
 	}
 
-    /**
-	 * Method for finding index of  element in a list 
+	/**
+	 * Method for finding index of element in a list
+	 * 
 	 * @param list
 	 */
-	public static void indexOf(ArrayList<String> list){
-		System.out.print("Enter a string to find index : ");
+	public static void indexOf(ArrayList<String> list) {
+		System.out.print("Enter an element to find index : ");
 		String string = System.console().readLine();
-		System.out.println("Index of "+string+" : " +list.indexOf(string));
+		log.info("Index of " + string + " : " + (list.indexOf(string)+1));
 	}
 
-    /**
+	/**
 	 * Method to set value of certain index
+	 * 
 	 * @param list
 	 */
-	public static void set(ArrayList<String> list){
-	    System.out.println("Enter index to set value: ");
-	    int i = Integer.parseInt(System.console().readLine());
-	    System.out.println("Enter String to set value : ");
-	    String string = System.console().readLine();
-	    list.set(i,string);
-	    System.out.println("Added "+string+" at index : "+i);
-	    System.out.println("After setting : "+list);
-	    
-	}
-	/**
-	 * Method for contains 
-     * Returns true if found 
-     * Returns false if not found
-	 * @param list
-	 */
-   static void contains(ArrayList<String> list){
-	    System.out.println("enter element to find (returns false if not found): ");
-	    String string = System.console().readLine();
-	    System.out.println(list.contains(string));
+	public static void set(ArrayList<String> list) {
+		log.info("Enter index to set value: ");
+		int index = Integer.parseInt(System.console().readLine())-1;
+		log.info("Enter element to set value : ");
+		String element = System.console().readLine();
+		list.set(index, element);
+		log.info("Added " + element + " at index : " + index);
+		log.info("After setting : " + list);
+
 	}
 
 	/**
-	 *  Method to remove an element
+	 * Method for contains Returns true if found Returns false if not found
+	 * 
 	 * @param list
 	 */
-	static void remove(ArrayList<String> list ){
-	    System.out.println("Enter a index REMOVE : ");
-	    int n = Integer.parseInt(System.console().readLine());
-	    list.remove(n);
-	    System.out.println("After removing : " + list);
+	static void contains(ArrayList<String> list) {
+		log.info("enter element to find (returns false if not found): ");
+		String string = System.console().readLine();
+		log.info(list.contains(string));
 	}
+
+	/**
+	 * Method to remove an element
+	 * 
+	 * @param list
+	 */
+	static void remove(ArrayList<String> list) {
+		log.info("Enter a index REMOVE : ");
+		int index = Integer.parseInt(System.console().readLine())-1;
+		list.remove(index);
+		log.info("After removing : " + list);
+	}
+
 	/**
 	 * Method to find the size of element
+	 * 
 	 * @param list
 	 */
-  	static void size(ArrayList<String> list){
-		System.out.println("Size of list : "+list.size());
-		System.out.println("End of program");               // since this method is called at the end of the program "End of program is printed"
+	static void size(ArrayList<String> list) {
+		log.info("Size of list : " + list.size());
+		log.info("End of program"); // since this method is called at the end of the program "End of program is
+									// printed"
 	}
 
 	/**
 	 * Main method of the class List
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try{
-		//BasicConfigurator.configure();
-		FileAppender logFileAppender = new FileAppender(new SimpleLayout(), "C:/Users/anu-d/Desktop/tasks/Phase1/logs/List.txt");
-		BasicConfigurator.configure(logFileAppender);
-	
-		 
-		 log.debug("Hello this is a debug message");
-		 log.info("Hello this is an info message");
 
-	
-			System.out.println("Hello this is List program. Do you want to continue?");
-        boolean temp = true;
-        while(temp){
-            System.out.println("Type 'yes' to continue or Type 'no' to terminate");
-            String x=System.console().readLine();
-            switch(x){
-                case "yes":
-					ArrayList<String>  list=new ArrayList<String>();
-			
+		boolean temp = true;
+		String option;
+		ArrayList<String> list = new ArrayList<String>();
+
+		PatternLayout layout = new PatternLayout("%-5p %d{dd MMM yyyy HH:mm:ss} [%t] : %m %n");
+        ConsoleAppender consoleAppender = new ConsoleAppender(layout);
+        //BasicConfigurator.configure(consoleAppender);
+		
+
+		log.info("Hello this is List program. Do you want to continue?");
+		
+
+		while (temp) {
+			try {
+
+				log.info("\n1. Continue\n2. Terminate");
+				option= System.console().readLine();
+				switch (option) {
+				case "1" :
+					
+
 					add(list);
 					isEmpty(list);
 					indexOf(list);
@@ -120,34 +135,27 @@ public class List{
 					size(list);
 					break;
 
-                case "no" :
-                    System.out.println("program ended");
-                    temp=false;
-                    break;
+				case "2" :
+					log.info("program ended");
+					temp = false;
+					break;
 
-                default: 
-                    System.out.println("Please enter 'yes' or 'no' only");
-                    break;
-                }
-        }
+				default:
+					log.info("Please enter from  the given values only");
+					break;
+				}
 
-		}catch(Exception e){
-			System.out.println("Error! Program Terminated");
-			log.debug(e.toString());
+			} catch (Exception e) {
+				log.info("Error! Lets do it again");
+				//log.debug(e.toString());
+			}
 		}
 
 	}
 }
 
-/** algorithm for List functions
- * START
-	* initialize an empty arraylist
-	* call add()
-	* call isEmpty()
-	* call indexOf()
-	* call Set()
-	* call remove()
-	* call size()
- *STOP
+/**
+ * algorithm for List functions START initialize an empty arraylist call add()
+ * call isEmpty() call indexOf() call Set() call remove() call size() STOP
  *
  */

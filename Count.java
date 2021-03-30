@@ -1,82 +1,81 @@
 package Phase1;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.ConsoleAppender;
 import java.util.HashMap;
-/**this class is developed on day-06 */
+
+/** this class is developed on day-06 */
 public class Count {
 	static Logger log = Logger.getLogger(Count.class.getName());
 
 	/**
-	 * this is the main function for the class Count 
+	 * this is the main function for the class Count
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try{
 
-		FileAppender logFileAppender = new FileAppender(new SimpleLayout(), "C:/Users/anu-d/Desktop/tasks/Phase1/logs/Count.txt");
-		BasicConfigurator.configure(logFileAppender);
-	
-		 
-		 log.debug("Hello this is a debug message");
-		 log.info("Hello this is an info message");
+		//inti variables
+		boolean temp = true;
+		String option,sentence;
+		int count=0;
+
+		//inti log4J
+		PatternLayout layout = new PatternLayout("%-5p %d{dd MMM yyyy HH:mm:ss} [%t] : %m %n");
+		ConsoleAppender consoleAppender = new ConsoleAppender(layout);
+		//BasicConfigurator.configure(consoleAppender);
+
+		log.info("Hello this is Count program. Do you want to continue?");
 		
 
-			
-			System.out.println("Hello this is Count program. Do you want to continue?");
-        boolean temp = true;
-        while(temp){
-            System.out.println("Type 'yes' to continue or Type 'no' to terminate");
-            String x=System.console().readLine();
-            switch(x){
-                case "yes":
-					//take input from user
-					System.out.println("Enter a sentence");
-					String string = System.console().readLine();
+		while (temp) {
+			try {
 
-					//init hashmap object
-					HashMap<Integer, String> h = new HashMap<>();
+				log.info("\n1. Continue\n2. Terminate");
+				 option = System.console().readLine();
+				switch (option) {
+				case "1" :
+					// take input from user
+					log.info("Enter a sentence");
+					sentence = System.console().readLine();	
 
-					//split the string into words and store it in a array
-					String word[]= string.split(" ");
+					// split the string into words and store it in a array
+					String words[] = sentence.split(" ");
 
-					//convert the array to hashmap
-					int i =0;
-					for (String s: word) {
-						h.put(i, s);
-						i++;
+					// count the number of words
+					for (String word : words) {
+						count++;
 					}
 
-					//print the size of hashmap using size() method
-					System.out.println("No of words in the above sentence is : "+h.size());
+					// print the size of hashmap using size() method
+					log.info("No of words in the above sentence is : " + count);
 					break;
-							
-                case "no" :
-                    System.out.println("program ended");
-                    temp=false;
-                    break;
 
-                default: 
-                    System.out.println("Please enter 'yes' or 'no' only");
-                    break;
-                }
-        }
-	
-		}catch(Exception e){
-			System.out.println("Error! Program Terminated");
-			log.debug(e.toString());
+				case "2" :
+					log.info("program ended");
+					temp = false;
+					break;
+
+				default:
+					log.info("Please enter from  the given values only");
+					break;
+				}
+
+			} catch (Exception e) {
+				log.warn("Error! Forgot the count ");
+				// log.debug(e.toString());
+			}
+
 		}
-		
-		
+
 	}
 }
-/** algorithm for count class
- * START
-	* take inputs
-	* split the string with " " and store it in an array
-	* count the size of array
-	* print count
- * END
+/**
+ * algorithm for count class START take inputs split the string with " " and
+ * store it in an array count the size of array print count END
  *
  */

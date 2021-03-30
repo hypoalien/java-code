@@ -1,113 +1,106 @@
 package Phase1;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.io.*;  
-import java.util.*;
+
+
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.PatternLayout;
 
-/**this class is developed on day-01  */
-public class Calculator{
+/**
+ * this class is developed on day-01
+ * 
+ */
+public class Calculator {
      static Logger log = Logger.getLogger(Calculator.class.getName());
-    /**this is the main funtion for the class Calculator*/
-     public static void main (String[] args){
 
-          
-          try{
-               //BasicConfigurator.configure();
-           FileAppender logFileAppender = new FileAppender(new SimpleLayout(), "C:/Users/anu-d/Desktop/tasks/Phase1/logs/calculator.txt");
-		 BasicConfigurator.configure(logFileAppender);
-     
-          
-          log.debug("Hello this is a debug message");
-          log.info("Hello this is an info message");
-               System.out.println("Hello this is Calculator program. Do you want to continue?");
-               boolean temp = true;
-               while (temp){
-                   
-                    System.out.println("Type 'yes' to continue or Type 'no' to terminate");
-                    String x=System.console().readLine();
-     
-                    switch(x){
-     
-                         case "yes":
-                              double result=0;
-                              System.out.println("enter number a : ");
-          
-                              double firstDigit=Double.parseDouble(System.console().readLine());
-                              System.out.println("enter operator ('+','-','*','/') : ");
-                    
-                              String operator = System.console().readLine();
-                    
-                              System.out.println("enter number b : ");
-                              double secondDigit=Double.parseDouble(System.console().readLine());
-                              
-                              switch (operator){
-                                   case "+" :
-                                   result=firstDigit+secondDigit;
-                                   break;
-                              
-                              case "-" :
-                                   result=firstDigit-secondDigit;
-                                   break;
-                              case "*" :
-                                   result=firstDigit*secondDigit;
-                                   break;
-                              case "/" :
-                                   result=firstDigit/secondDigit;
-                                   break;
-                              case "%" :
-                                   result=firstDigit%secondDigit;
-                                   break;    
-                              default :
-                                   System.out.println("Please enter operators +,-,*,/,% only");
-                                   break;
-                              }
-                              
-                              System.out.println(firstDigit+ " "+operator+" "+secondDigit+ " = "+result);
-                              break;
-          
-                         case "no":
-                              System.out.println("program Ended");
-                              temp=false;
-                              break;
-          
-                         default :
-                              System.out.println("Please enter 'yes' or 'no' only");
-                              break;
+     /** this is the main funtion for the class Calculator */
+     public static void main(String[] args) {
+          // init variables
+          boolean temp = true;
+          double result=0, firstDigit, secondDigit;
+          String option, operator, operation=null;
+
+          // init log4j config
+          PatternLayout layout = new PatternLayout("%-5p %d{dd MMM yyyy HH:mm:ss} [%t] : %m %n");
+          ConsoleAppender consoleAppender = new ConsoleAppender(layout);
+          //BasicConfigurator.configure(consoleAppender);
+
+          log.info("Hello User this is Calculator program. Do you want to continue?");
+
+          while (temp) {
+               try {
+
+                    log.info("\n1. Continue\n2. Terminate");
+                    option = System.console().readLine();
+
+                    switch (option) {
+
+                    case "1" :
+
+                         log.info("enter number a : ");
+                         firstDigit = Double.parseDouble(System.console().readLine());
+
+                         log.info("enter number b : ");
+                         secondDigit = Double.parseDouble(System.console().readLine());
                          
-          
+                         log.info("Choose an option :\n1. Sum\n2. Difference\n3. Product\n4. Quotient\n5. Modular\n  ");
+                         operator = System.console().readLine();
+
+                         switch (operator) {
+                         case "1":
+                              result = firstDigit + secondDigit;
+                              operation = "+";
+                              break;
+
+                         case "2":
+                              result = firstDigit - secondDigit;
+                              operation = "-";
+                              break;
+                         case "3":
+                              result = firstDigit * secondDigit;
+                              operation = "*";
+                              break;
+                         case "4":
+                              result = firstDigit / secondDigit;
+                              operation = "/";
+                              break;
+                         case "5":
+                              result = firstDigit % secondDigit;
+                              operation = "%";
+                              break;
+                         default:
+                              log.info("Please Choose from given options only");
+                              firstDigit=0;
+                              operation =" ";
+                              secondDigit=0;
+                              result=0;
+                              break;
+                              
+                         }
+
+                         log.info(firstDigit + " " + operation + " " + secondDigit + " = " + result);
+                         break;
+
+                    case "2" :
+                         log.info("program Ended");
+                         temp = false;
+                         break;
+
+                    default:
+                         log.info("Please enter from  the given values only");
+                         break;
+
                     }
-                         
-               }
-          }catch(Exception e){
-               System.out.println("Error ! Program terminated");
-               log.debug(e.toString());
-          }
-         
 
+               } catch (NumberFormatException e) {
+                    log.warn("Oops, what was that ! Please provide right inputs");
+                    //log.warn(e.printStackTrace);
+
+               }
+          }
      }
 }
 
-/*
-Algorithm for calculator
-START
-     declare variables 1st digit, 2nd digit ,result and operator
-     read inputs for 1st and 2nd digits
-     read input for operator
-     if operator == +
-     result = add 1st and 2nd digit
-     if operator == -
-     result subtract 1st and 2nd digit
-     if operator == +
-     result = multiply 1st and 2nd digit
-     if operator == +
-     result =divide 1st and 2nd digit
-     if operator != any of the above
-     result = print "enter right operator "
-     print result
-STOP
-*/
